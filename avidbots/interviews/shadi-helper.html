@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Avidbots – Senior Full Stack Interview Guide (Shahid Aman)</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2b;
+      --panel-2: #0e1626;
+      --text: #e6eefc;
+      --muted: #a7b3c9;
+      --accent: #6ea8fe;
+      --accent-2: #22d3ee;
+      --good: #22c55e;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+      --card: #0f172a;
+      --chip: #1e293b;
+      --border: #23324a;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; background: linear-gradient(180deg, var(--bg), #0b1327 60%); color: var(--text);
+      font: 15px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    }
+    header {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,39,.65));
+      border-bottom: 1px solid var(--border);
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 18px 18px; }
+    h1 { font-size: 22px; margin: 0 0 4px 0; letter-spacing: .2px; }
+    .subtitle { color: var(--muted); font-size: 13px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .toolbar button, .toolbar .toggle {
+      background: var(--chip); color: var(--text); border: 1px solid var(--border);
+      padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 13px;
+    }
+    .toolbar input[type="search"] {
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      padding: 8px 12px; border-radius: 10px; font-size: 13px; min-width: 220px;
+    }
+    main { padding: 22px 18px 80px; }
+    .grid { display: grid; gap: 14px; }
+    @media (min-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: radial-gradient(1200px 500px at -10% -20%, rgba(110,168,254,.1), transparent 40%), var(--card);
+      border: 1px solid var(--border); border-radius: 16px; padding: 14px 14px 10px; position: relative;
+    }
+    .q-head { display: flex; gap: 10px; align-items: center; }
+    .idx { background: var(--panel); border: 1px solid var(--border); color: var(--accent);
+      width: 32px; height: 32px; display: grid; place-items: center; border-radius: 10px; font-weight: 700; }
+    .q-title { font-weight: 650; letter-spacing: .2px; }
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .badge { font-size: 11px; color: var(--muted); background: var(--chip); border: 1px solid var(--border); padding: 4px 8px; border-radius: 999px; }
+
+    .q-body { margin-top: 10px; display: grid; gap: 8px; }
+    .row { display: grid; gap: 10px; }
+    @media (min-width: 700px) {
+      .row { grid-template-columns: 1.2fr 1fr; }
+    }
+    .mini { color: var(--muted); font-size: 13px; }
+
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { background: var(--panel); border: 1px solid var(--border); padding: 6px 10px; border-radius: 999px; font-size: 12px; }
+
+    details.details { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 8px 10px; }
+    details summary { cursor: pointer; user-select: none; color: var(--accent-2); }
+    details .detail-grid { margin-top: 8px; display: grid; gap: 12px; }
+    @media (min-width: 820px) {
+      details .detail-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .detail-box { background: transparent; border: 1px dashed var(--border); border-radius: 10px; padding: 10px; }
+
+    .notes { display: grid; gap: 8px; margin-top: 8px; }
+    .notes textarea { width: 100%; min-height: 70px; resize: vertical; background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 8px; }
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .rate { display: inline-flex; align-items: center; gap: 6px; }
+    .rate select { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; }
+
+    .glossary { margin-top: 24px; }
+    .glossary h2 { font-size: 16px; margin-bottom: 8px; }
+    .glossary .glist { display: grid; gap: 10px; }
+    .glossary .item { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 10px; }
+    .item h3 { margin: 0 0 6px; font-size: 14px; color: var(--accent); }
+
+    footer { color: var(--muted); text-align: center; padding: 22px; border-top: 1px solid var(--border); background: #0b1327; }
+
+    /* Print */
+    @media print {
+      header, .toolbar { display:none !important; }
+      body { background: #fff; color: #000; }
+      .card { break-inside: avoid; border-color: #ddd; }
+      details.details { border-color: #ddd; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Avidbots – Senior Full Stack Interview Guide</h1>
+      <div class="subtitle">Candidate: <strong>Shahid Aman</strong> • Role: Senior Full Stack Developer • Use during live call</div>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Filter by keyword (e.g., Kafka, React, Kubernetes)" />
+        <button id="expandAll">Expand all details</button>
+        <button id="collapseAll">Collapse all details</button>
+        <button id="clearNotes">Clear all notes</button>
+        <button id="print">Print / Save PDF</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <div id="list" class="grid"></div>
+
+    <section class="glossary">
+      <h2>Glossary (quick refresher)</h2>
+      <div class="glist">
+        <div class="item">
+          <h3>POS (Point of Sale)</h3>
+          Software/hardware system that handles orders & payments at stores/restaurants. Needs real-time updates (e.g., kitchen screen instantly sees a new order). Similar pattern to robot telemetry → backend → dashboard.
+        </div>
+        <div class="item">
+          <h3>Multi-tenant SaaS</h3>
+          One application instance serves multiple organizations (tenants). Key concerns: strict data isolation, per-tenant configuration, access control, scaling & noisy-neighbor control, billing/usage.
+        </div>
+        <div class="item">
+          <h3>CDC (Change Data Capture)</h3>
+          Mechanism to stream database changes (inserts/updates/deletes) as events (often via Kafka) so other systems stay in sync in near real-time.
+        </div>
+        <div class="item">
+          <h3>Kubernetes – Pod vs Service</h3>
+          Pod = a running container (or small group). Service = stable network endpoint/load balancer pointing to pods.
+        </div>
+        <div class="item">
+          <h3>Robot Telemetry</h3>
+          Continuous robot status/metrics (e.g., location, battery, task state) streamed to cloud → stored → visualized in dashboards.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built for Avidbots interviews • Notes & ratings auto‑save in your browser
+  </footer>
+
+  <script>
+    // === Data ===
+    const QUESTIONS = [
+      {
+        idx: 1,
+        category: "General / Real‑time",
+        question: "You’ve worked on real-time systems (POS, order tracking). At Avidbots, robots stream telemetry in real time. How would you design a flow from devices to dashboards?",
+        why: "Connect his real-time experience to robot telemetry.",
+        lookFor: "Clear pipeline: device → API/broker (Kafka/WebSockets/MQTT) → storage → dashboard updates.",
+        plain: "If a device keeps sending data, how do we collect, process, store, and show it live?",
+        cv: [
+          "Tiso Studio: MongoDB CDC + Kafka for distributed POS sync; real-time dashboards (QuestDB).",
+          "Biteheist: Real-time order tracking with SMS/GPS notifications."
+        ],
+        extra: "Explain choice of broker (Kafka vs MQTT), push vs pull to UI, and back-pressure/retention."
+      },
+      {
+        idx: 2,
+        category: "Architecture / SaaS",
+        question: "You built multi-tenant SaaS apps. What challenges come with multi-tenancy, and how do you solve them?",
+        why: "We serve multiple customers on shared infra.",
+        lookFor: "Tenant isolation (DB/collection/schema), RBAC, per-tenant config, scaling, noisy-neighbor control.",
+        plain: "How do you make one app safely serve many companies?",
+        cv: ["CAREit: Multi-tenant employee engagement SaaS with role-based access control."],
+        extra: "Mention auth scopes, tenant IDs in data model, and operational concerns (backups, migrations)."
+      },
+      {
+        idx: 3,
+        category: "Legacy / Pragmatism",
+        question: "We have AngularJS and PHP still around. What’s your approach to working with or refactoring older systems?",
+        why: "Our stack includes legacy parts.",
+        lookFor: "Add tests, strangler-fig approach, incrementally replace, avoid risky big rewrites.",
+        plain: "How do you improve old code without breaking it?",
+        cv: ["Biteheist/CAREit: Long-running platforms, integrations and incremental feature work."],
+        extra: "Risk-based prioritization, error budgets, observability before refactors."
+      },
+      {
+        idx: 4,
+        category: "Backend / Frameworks",
+        question: "You’ve used both Express and NestJS. When would you choose Express, and when NestJS?",
+        why: "We use both styles internally.",
+        lookFor: "Express = minimal/flexible. NestJS = opinionated DI, modules, enterprise structure.",
+        plain: "Pick simple vs structured depending on team/scale.",
+        cv: ["Skills: Express.js, Nest.js across multiple projects."],
+        extra: "Testing, decorators, interceptors, pipes in Nest; lightweight middleware in Express."
+      },
+      {
+        idx: 5,
+        category: "Data / Streaming",
+        question: "You built MongoDB CDC + Kafka. In simple terms, what is CDC and why did you use it?",
+        why: "Confirm understanding of event-driven sync.",
+        lookFor: "CDC streams DB changes as events to keep services/devices in sync.",
+        plain: "Track DB changes and publish them for others to react.",
+        cv: ["Tiso Studio: CDC + Kafka pipelines for distributed POS devices with conflict resolution."],
+        extra: "Debezium/streams, ordering, idempotency, replay."
+      },
+      {
+        idx: 6,
+        category: "Backend / API Design",
+        question: "Design a REST endpoint to list robots with pagination and filters—what would the path and query look like?",
+        why: "Practical API basics.",
+        lookFor: "GET /robots?page=1&limit=50&status=active&siteId=...; returns items + total/next.",
+        plain: "Show a clean URL and response shape.",
+        cv: ["Full-stack APIs across multiple roles (POS, PDFNinja, Blocks)."],
+        extra: "Cursor vs offset pagination; validation and defaults."
+      },
+      {
+        idx: 7,
+        category: "Data / Migration",
+        question: "You migrated millions of records. How would you ensure minimal downtime and data integrity for a similar migration?",
+        why: "We often evolve schemas/DBs.",
+        lookFor: "Dry runs, backfills, dual-writes or change windows, checksums, rollback plan.",
+        plain: "How to move huge data safely?",
+        cv: ["Go tool migrating 10M+ records MongoDB → PostgreSQL with minimal downtime."],
+        extra: "Phased cutover, CDC to catch stragglers."
+      },
+      {
+        idx: 8,
+        category: "Frontend / Frameworks",
+        question: "What’s the main workflow difference when building in Angular vs React/Next.js?",
+        why: "We run Angular; exploring React.",
+        lookFor: "Angular = batteries-included; React = compose libs. State mgmt differences.",
+        plain: "Angular is opinionated; React is flexible.",
+        cv: ["Frontend: React, Next.js; experience with Angular."],
+        extra: "SSR with Next.js; Angular CLI and DI; forms and routing approaches."
+      },
+      {
+        idx: 9,
+        category: "Mobile / Offline",
+        question: "Your React Native POS was offline-first. How did you handle offline storage and conflict resolution when back online?",
+        why: "Robots/sites may go offline.",
+        lookFor: "Local queue, versioning, CRDTs or simple last-write-wins, background sync.",
+        plain: "Work offline then merge safely.",
+        cv: ["React Native POS with offline support; distributed sync in Tiso Studio."],
+        extra: "Retries, exponential backoff, user feedback on sync status."
+      },
+      {
+        idx: 10,
+        category: "Frontend / Transition",
+        question: "If we run Angular and React in parallel during a transition, how would you structure it?",
+        why: "Likely near-term scenario for us.",
+        lookFor: "Micro-frontends, module federation, shared design system, contract-first APIs.",
+        plain: "Keep both UIs stable while migrating.",
+        cv: ["Built multiple React frontends; general experience across stacks."],
+        extra: "Routing strategy, auth single-sign-on across apps."
+      },
+      {
+        idx: 11,
+        category: "Data / Modeling",
+        question: "When would you choose PostgreSQL vs MongoDB vs QuestDB? Give a concrete example for each.",
+        why: "Match DB to workload.",
+        lookFor: "SQL for structured/relational; Mongo for flexible docs; QuestDB for time-series/analytics.",
+        plain: "Pick the right DB for the job.",
+        cv: ["QuestDB analytics, MongoDB for apps, Postgres migrations."],
+        extra: "Indexes/partitioning for time-series; transactions vs schema-less tradeoffs."
+      },
+      {
+        idx: 12,
+        category: "SQL Basics",
+        question: "Explain INNER JOIN vs LEFT JOIN with a simple example.",
+        why: "Quick sanity check on SQL.",
+        lookFor: "INNER = matches only; LEFT = all left rows + matches or NULLs.",
+        plain: "Difference in what rows are returned.",
+        cv: ["SQL across MySQL/PostgreSQL projects."],
+        extra: "Performance considerations with indexes."
+      },
+      {
+        idx: 13,
+        category: "DevOps / CI-CD",
+        question: "We use Bitbucket Pipelines. What steps do you expect in a CI/CD pipeline for a Node microservice to Kubernetes?",
+        why: "Ensure deploy hygiene.",
+        lookFor: "Install deps → tests → build → Docker → push registry → Helm/kubectl deploy → smoke checks.",
+        plain: "From commit to cluster reliably.",
+        cv: ["GitLab CI/CD + GitHub Actions; Kubernetes orchestration for 9+ services."],
+        extra: "Env vars/secrets, rollbacks, canary/blue-green."
+      },
+      {
+        idx: 14,
+        category: "DevOps / Debugging",
+        question: "API works locally but fails in Kubernetes—what do you check first?",
+        why: "Practical troubleshooting.",
+        lookFor: "Pod logs, readiness/liveness, env vars, Service/Ingress, DNS/CORS, NetworkPolicy.",
+        plain: "Find the first broken link in the chain.",
+        cv: ["Hands-on K8s experience across environments."],
+        extra: "Image tag drift, config maps/secrets mounted correctly."
+      },
+      {
+        idx: 15,
+        category: "Kubernetes Basics",
+        question: "Explain in simple terms: what’s a Pod and what’s a Service?",
+        why: "Check core concepts.",
+        lookFor: "Pod = running container(s); Service = stable endpoint / load balancer to pods.",
+        plain: "Compute vs network abstraction.",
+        cv: ["Docker & Kubernetes toolchain in multiple projects."],
+        extra: "ClusterIP/NodePort/LoadBalancer types."
+      },
+      {
+        idx: 16,
+        category: "E2E Debugging",
+        question: "Robot sends telemetry but the dashboard shows nothing. How do you debug end-to-end?",
+        why: "Mirrors our real incidents.",
+        lookFor: "Trace at each hop: device logs → broker/API → DB → subscription/WS → UI state/render.",
+        plain: "Follow the data path until it breaks.",
+        cv: ["Real-time systems: POS tracking, Kafka, Socket.IO."],
+        extra: "Feature flags, sampling logs, correlation IDs."
+      },
+      {
+        idx: 17,
+        category: "Web Debugging",
+        question: "Frontend works locally but not in prod—what’s your first suspicion?",
+        why: "Very common deployment issue.",
+        lookFor: "Wrong API base URL, CORS/Ingress config, auth cookies, env mismatch.",
+        plain: "Local vs prod config drift.",
+        cv: ["Full-stack deployments across clouds."],
+        extra: "Check console/network tab quickly."
+      },
+      {
+        idx: 18,
+        category: "Leadership / Mentoring",
+        question: "How do you balance mentoring juniors with your own deliverables?",
+        why: "Senior role expectation.",
+        lookFor: "Time-boxing, pairing, docs/templates, async code reviews.",
+        plain: "Help others without blocking yourself.",
+        cv: ["Experience leading and mentoring noted in achievements."],
+        extra: "Set clear goals, rotate pairing, office hours."
+      },
+      {
+        idx: 19,
+        category: "Process / Planning",
+        question: "When leading backlog grooming, how do you keep estimates realistic?",
+        why: "Planning quality impacts delivery.",
+        lookFor: "Breakdown, spikes for unknowns, historical velocity, definition of done.",
+        plain: "Avoid overpromising.",
+        cv: ["Owned technical epics and CI/CD roadmaps."],
+        extra: "Risk buffers, dependencies explicit."
+      },
+      {
+        idx: 20,
+        category: "Fit / AI-ML",
+        question: "You’re into AI/ML. What excites you about applying it in robotics/SaaS?",
+        why: "Future-facing mindset.",
+        lookFor: "Predictive maintenance, anomaly detection, intelligent routing, copilots.",
+        plain: "Where would you apply AI first?",
+        cv: ["GoQuery: NL→SQL with OpenAI; interest in AI/ML."],
+        extra: "Data privacy, feedback loops, evals."
+      },
+      {
+        idx: 21,
+        category: "Team / Remote",
+        question: "You’ve worked remotely across orgs. How do you keep communication effective in a global team?",
+        why: "We are distributed across countries.",
+        lookFor: "Async updates, written decisions, demos, crisp tickets, timezone overlap planning.",
+        plain: "Make remote collaboration smooth.",
+        cv: ["Biteheist & CAREit remote roles; global collaboration."],
+        extra: "Rituals: standups, office hours, decision logs."
+      }
+    ];
+
+    // === Render ===
+    const listEl = document.getElementById('list');
+
+    function el(tag, attrs={}, children=[]) {
+      const n = document.createElement(tag);
+      Object.entries(attrs).forEach(([k,v]) => {
+        if (k === 'class') n.className = v; else if (k === 'html') n.innerHTML = v; else n.setAttribute(k,v);
+      });
+      children.forEach(c => n.appendChild(c));
+      return n;
+    }
+
+    function cardTemplate(q) {
+      const card = el('article', {class:'card', id:`q-${q.idx}`});
+
+      const head = el('div', {class:'q-head'} , [
+        el('div', {class:'idx'}, [document.createTextNode(q.idx)]) ,
+        el('div', {}, [
+          el('div', {class:'q-title'}, [document.createTextNode(q.question)]) ,
+          el('div', {class:'badges'}, [
+            el('span', {class:'badge'}, [document.createTextNode(q.category)])
+          ])
+        ])
+      ]);
+
+      const why = el('div', {class:'chips'}, [
+        el('span', {class:'chip'}, [el('strong', {html:'Why:&nbsp;'}), document.createTextNode(q.why)]) ,
+        el('span', {class:'chip'}, [el('strong', {html:'Look for:&nbsp;'}), document.createTextNode(q.lookFor)])
+      ]);
+
+      const details = el('details', {class:'details'}, [
+        el('summary', {}, [document.createTextNode('More details (plain meaning, CV links, context)')]),
+        el('div', {class:'detail-grid'}, [
+          el('div', {class:'detail-box'}, [
+            el('div', {class:'mini'}, [el('strong', {html:'Plain meaning'})]),
+            el('div', {}, [document.createTextNode(q.plain)])
+          ]),
+          el('div', {class:'detail-box'}, [
+            el('div', {class:'mini'}, [el('strong', {html:'Related CV highlights'})]),
+            el('ul', {}, q.cv.map(t => el('li', {}, [document.createTextNode(t)])))
+          ]),
+          el('div', {class:'detail-box'}, [
+            el('div', {class:'mini'}, [el('strong', {html:'Extra context'})]),
+            el('div', {}, [document.createTextNode(q.extra)])
+          ])
+        ])
+      ]);
+
+      const rateKey = `rate-${q.idx}`;
+      const notesKey = `notes-${q.idx}`;
+
+      const controls = el('div', {class:'controls'}, [
+        el('label', {class:'rate'}, [
+          el('span', {}, [document.createTextNode('Rating')]),
+          (() => { const s = el('select'); ['','1','2','3','4','5'].forEach(v=>{
+              const o = el('option', {value: v}, [document.createTextNode(v||'–')]); s.appendChild(o);
+            });
+            s.value = localStorage.getItem(rateKey) || '';
+            s.addEventListener('change', ()=> localStorage.setItem(rateKey, s.value));
+            return s; })()
+        ])
+      ]);
+
+      const notes = el('div', {class:'notes'}, [
+        el('label', {class:'mini'}, [document.createTextNode('Your notes')]),
+        (() => { const ta = el('textarea'); ta.value = localStorage.getItem(notesKey) || '';
+          ta.addEventListener('input', ()=> localStorage.setItem(notesKey, ta.value)); return ta; })()
+      ]);
+
+      card.append(head, why, details, controls, notes);
+      return card;
+    }
+
+    function render(cards = QUESTIONS) {
+      listEl.innerHTML = '';
+      cards.forEach(q => listEl.appendChild(cardTemplate(q)));
+    }
+
+    render();
+
+    // === Interactions ===
+    document.getElementById('expandAll').addEventListener('click', () => {
+      document.querySelectorAll('details.details').forEach(d => d.open = true);
+    });
+    document.getElementById('collapseAll').addEventListener('click', () => {
+      document.querySelectorAll('details.details').forEach(d => d.open = false);
+    });
+    document.getElementById('clearNotes').addEventListener('click', () => {
+      if (!confirm('Clear all notes & ratings for this page?')) return;
+      Object.keys(localStorage).forEach(k => { if (k.startsWith('rate-') || k.startsWith('notes-')) localStorage.removeItem(k); });
+      render();
+    });
+    document.getElementById('print').addEventListener('click', () => window.print());
+
+    // Search filter
+    const search = document.getElementById('search');
+    search.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      if (!q) { render(); return; }
+      const filtered = QUESTIONS.filter(item => {
+        const blob = [item.category, item.question, item.why, item.lookFor, item.plain, item.extra, ...(item.cv||[])].join('\n').toLowerCase();
+        return blob.includes(q);
+      });
+      render(filtered);
+    });
+  </script>
+</body>
+</html>
